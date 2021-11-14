@@ -8,11 +8,21 @@ use App\Models\Book;
 
 class BooksController extends Controller
 {
-    public function store(StoreBookRequest $request) {
-        Book::create($request->validated());
+    public function store(StoreBookRequest $request)
+    {
+        $book = Book::create($request->validated());
+        return redirect($book->path());
     }
 
-    public function update(UpdateBookRequest $request, Book $book) {
+    public function update(UpdateBookRequest $request, Book $book)
+    {
         $book->update($request->validated());
+        return redirect($book->path());
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect('/books');
     }
 }
